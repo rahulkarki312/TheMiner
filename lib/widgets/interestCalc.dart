@@ -110,8 +110,9 @@ class _interestCalcState extends State<interestCalc> {
           height: mediaQuery.size.height * 0.32,
           width: mediaQuery.size.width * 0.9,
           child: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            color: Color.fromARGB(255, 71, 131, 179),
+            child: ListView(
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   height: mediaQuery.size.height * 0.05,
@@ -127,13 +128,16 @@ class _interestCalcState extends State<interestCalc> {
                 ),
                 TextField(
                   decoration: InputDecoration(
-                      labelText: "'S' for simple 'C' for compund"),
+                      labelText: "'S' for simple 'C' for compound"),
                   controller: interestTypeCtrl,
                 ),
                 Text("Total Sum = $sumUsdt USDT ~ Rs $sumNpr "),
                 Text(
                     "Interest Earned = $interestEarnedUsdt USDT ~ Rs $interestEarnedNpr"),
-                RaisedButton(child: Text("Calculate"), onPressed: calcInterest)
+                RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    child: Text("Calculate"),
+                    onPressed: calcInterest)
               ],
             ),
           ),
@@ -144,6 +148,7 @@ class _interestCalcState extends State<interestCalc> {
           height: mediaQuery.size.height * 0.30,
           width: mediaQuery.size.width * 0.9,
           child: Card(
+            color: Color.fromARGB(255, 71, 131, 179),
             child: Column(
               children: [
                 TextField(
@@ -155,6 +160,7 @@ class _interestCalcState extends State<interestCalc> {
                   controller: targetAmtCtrl,
                 ),
                 RaisedButton(
+                  color: Theme.of(context).accentColor,
                   onPressed: calcTarget,
                   child: Text("calculate"),
                 ),

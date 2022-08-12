@@ -1,4 +1,5 @@
 import 'dart:ffi';
+
 import 'package:miner/widgets/interestCalc.dart';
 
 import 'models/coin.dart';
@@ -13,8 +14,7 @@ class MineApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme:
-          ThemeData(primarySwatch: Colors.amber, accentColor: Colors.blueGrey),
+      theme: ThemeData(primarySwatch: Colors.green, accentColor: Colors.white),
       home: MyHomePage(),
     );
   }
@@ -26,39 +26,71 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // coin value updater (Modal sheet)
+  var updatedCoinVal = TextEditingController();
+  void updateVal(String coinName) {
+    num newVal = double.parse(updatedCoinVal.text);
+    coinValues[coinName] = newVal;
+  }
+  // coin value updater ends
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: ((context) {
-                      return Container(
-                        height: mediaQuery.size.height * 0.5,
-                        color: Theme.of(context).accentColor,
-                        child: Card(
-                          child: Column(
-                            children: [
-                              Text("Modify values"),
-                              // coinValues.keys.toList()
-                            ],
-                          ),
+            icon: Icon(
+              Icons.add,
+              color: Colors.black,
+              size: 40,
+            ),
+            onPressed: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: ((context) {
+                    return Container(
+                      height: mediaQuery.size.height * 0.5,
+                      color: Theme.of(context).accentColor,
+                      child: Card(
+                        elevation: 9,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Modify values (Base Currency is USD"),
+                            ...(coinValues.keys.map((cn) {
+                              return Row(
+                                children: [
+                                  Text(cn),
+                                  Container(
+                                    width: mediaQuery.size.width * 0.5,
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        hintText:
+                                            "     " + coinValues[cn].toString(),
+                                      ),
+                                      controller: updatedCoinVal,
+                                    ),
+                                  ),
+                                  RaisedButton(
+                                      child: Text("Update"),
+                                      onPressed: () => updateVal(cn))
+                                ],
+                              );
+                            }).toList())
+                          ],
                         ),
-                      );
-                    }));
-              },
-              icon: Icon(
-                Icons.add,
-                color: Colors.black,
-              )),
+                      ),
+                    );
+                  }));
+            },
+          ),
         ],
       ),
-      body: Column(children: [
+      body: ListView(children: [
         // converter
         converter(),
 
